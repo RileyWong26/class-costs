@@ -18,7 +18,7 @@ export async function insertProgramRows(Table: string, program: Array<Program>){
         console.log("Error " + error.message);
     }
     else{
-        console.log("Inserted");
+        console.log("Inserted Successfully");
     }
 }
 

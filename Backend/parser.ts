@@ -72,12 +72,11 @@ function setProgram(program: Program, name : string, y1: number, y2: number, y3:
     }
 }
 // Parse pdf
-const parser = new PDFParse({url: 'https://registrar.uwo.ca/student_finances/fees_refunds/2025-FW-UGRD-FT-Fee-Schedule-CDN4.pdf'});
+const url : string = "https://registrar.uwo.ca/student_finances/fees_refunds/2025-FW-UGRD-FT-Fee-Schedule-CDN4.pdf";
+const parser = new PDFParse({url: url });
 const result = await parser.getText({parsePageInfo: true});
 const text = result.text;
 await parser.destroy();
-
-console.log(result.pages);
 
 // Begin parsing line by line
 result.pages.forEach((page) => {
@@ -240,7 +239,6 @@ result.pages.forEach((page) => {
         }
     });
 })
-console.log(arr);
 const err = insertProgramRows("Tuition", arr);
 
 
