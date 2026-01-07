@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useRef, ChangeEvent, DragEvent } from 'react';
-import { Upload, X, File, CheckCircle } from 'lucide-react';
+import { Upload, X, File} from 'lucide-react';
 
 interface UploadedFile {
   file: File;
@@ -53,6 +53,16 @@ export default function FileUpload() {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
   };
+
+  const uploadFile = async(file: UploadedFile) => {
+    const formdata = new FormData();
+    formdata.append('file', file.file);
+    console.log(file.file);
+    const res = await fetch("http://192.168.68.117:8080/uploadFile", {
+        method: "PUT",
+        body: formdata
+    });
+  }
 
   function FileInput(){
     return (
@@ -127,7 +137,7 @@ export default function FileUpload() {
           </div>
           <button 
             className="text-white mb-8 bg-blue-600 hover:bg-blue-700 transition-colors px-6 mt-8 py-2 rounded-lg"
-            onClick={() => {}}
+            onClick={() => {uploadFile(uploadedFile)}}
            >
             Upload
           </button>
