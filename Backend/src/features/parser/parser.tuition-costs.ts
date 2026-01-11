@@ -1,5 +1,5 @@
 import { PDFParse } from "pdf-parse";
-import { insertProgramRows} from "./supabase.js";
+import { insertProgramRows} from "@/shared/supabase.js";
 
 // Program object
 export class Program {
@@ -261,7 +261,6 @@ result.pages.forEach((page) => {
         }
     });
 })
-console.log(arr);
 const err = insertProgramRows("Tuition", arr);
 
 

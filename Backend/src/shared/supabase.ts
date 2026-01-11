@@ -1,6 +1,6 @@
 import { SupabaseClient, createClient } from "@supabase/supabase-js";
 import 'dotenv/config';
-import { Program } from "./parser.js";
+import { Program } from "@/features/parser/parser.tuition-costs.js";
 
 // Fetch keys from env file
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -19,7 +19,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 export async function insertProgramRows(Table: string, program: Array<Program>){
     const {data, error} = await supabase
     .from(Table)
-    .upsert(program)
+    .upsert(program);
     
     if (error) {
         throw new Error("Error inserting into the database: " + error);
@@ -28,5 +28,24 @@ export async function insertProgramRows(Table: string, program: Array<Program>){
         console.log("Inserted Successfully");
     }
 }
+
+// Fetch the keys from a table
+export async function getKeys(Table: string, keyName: string) {
+    interface keyItem{
+        [keyName]: any
+    }
+    const {data, error} : {data: keyItem[] | null , error: any} = await supabase 
+        .from(Table)
+        .select(keyName)
+    if(error ){
+        throw new Error("Error fetching the keys from the database: " + error);
+    }
+    else if (!data) throw new Error("There is no data in the table");
+
+    // Extract the keys from the json format and return it as an array
+    data.map((key : keyItem ) => {console.log(key[keyName])})
+    return data;
+}
+
 
 export default supabase;
