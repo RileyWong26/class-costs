@@ -43,10 +43,7 @@ next-env.d.ts
 # Backend
 Backend/.env
 Backend/node_modules
-Backend/*.js.map
-Backend/*.ts.map
-Backend/*.js
-Backend/*.d.ts
+Backend/dist
 
 # Frontend
 Frontend/.env
