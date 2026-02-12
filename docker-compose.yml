@@ -2,10 +2,36 @@ services:
   backend:
     build: ./Backend
     ports:
-      - 127.0.0.1:5000:5000
-    # image: class-costs-backend
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - CORS_DOMAINS=http://frontend:3000,http://localhost:3000
+    volumes:
+      - ./Backend:/back
+    networks:
+      - app-network
+    secrets:
+      - SUPABASE_KEY
+      - SUPABASE_URL
   frontend:
     build: ./Frontend
-    ports: 
-      - 127.0.0.1:3000:3000
-    # image: class-costs-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_BACKEND_PORT=http://localhost:5000
+    volumes:
+      - ./Frontend:/front
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+networks:
+  app-network:
+    driver: bridge
+
+secrets:
+  SUPABASE_KEY:
+    file: ./Backend/supabase_key
+  SUPABASE_URL:
+    file: ./Backend/supabase_url
